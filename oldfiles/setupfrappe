@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Get the Docker container name and site name from arguments
+CONTAINER_NAME=$1
+SITE_NAME=$2
+shift 2
+APPS="$@"
+
+# Install each app using the bench command inside the Docker container
+for APP in $APPS; do
+    docker exec -it $CONTAINER_NAME bench --site $SITE_NAME install-app $APP
+done

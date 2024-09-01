@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select ERP Features</title>
+</head>
+<body>
+    <center>
+    <h1>Select ERP Features for {{ site_name }}</h1>
+    <form method="POST" action="">
+        <label>Select the features to install:</label><br>
+        <input type="checkbox" id="accounting" name="apps" value="accounting">
+        <label for="accounting">Accounting</label><br>
+        <input type="checkbox" id="realestate" name="apps" value="realestate">
+        <label for="realestate">Real Estate</label><br>
+        <input type="checkbox" id="it_management" name="apps" value="it_management">
+        <label for="it_management">IT Management</label><br><br>
+        <input type="checkbox" id="skip_install" name="skip_install">
+        <label for="skip_install">Skip feature installation</label><br><br>
+        <button type="submit">Continue</button>
+    </form>
+</body>
+</html>

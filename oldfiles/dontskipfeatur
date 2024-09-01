@@ -1,0 +1,53 @@
+from flask import Flask, render_template, request, redirect, url_for
+import subprocess
+
+app = Flask(__name__)
+
+# Define your Docker container name
+DOCKER_CONTAINER_NAME = 'frappe_app'
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        site_name = request.form['site_name']
+        
+        # Validate site name
+        if not site_name or not site_name.isalnum():
+            return "Invalid site name. Please use only alphanumeric characters.", 400
+        
+        # Run the bash script to set up Frappe Docker
+        command = f'./setup_frappe.sh {site_name}'
+        try:
+            subprocess.run(command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            return f"Error occurred: {e}", 500
+        
+        return redirect(url_for('select_apps', site_name=site_name))
+    
+    return render_template('index.html')
+
+@app.route('/select_apps/<site_name>', methods=['GET', 'POST'])
+def select_apps(site_name):
+    if request.method == 'POST':
+        selected_apps = request.form.getlist('apps')
+        
+        if not selected_apps:
+            return "No apps selected. Please choose at least one app.", 400
+        
+        # Run the bash script to install the selected apps in the Docker container
+        command = f'./install_apps.sh {DOCKER_CONTAINER_NAME} {site_name} {" ".join(selected_apps)}'
+        try:
+            subprocess.run(command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            return f"Error occurred: {e}", 500
+        
+        return redirect(url_for('site', site_name=site_name))
+    
+    return render_template('select_apps.html', site_name=site_name)
+
+@app.route('/site/<site_name>')
+def site(site_name):
+    return f"Site {site_name} is up and running at http://example.com/{site_name}!"
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8000)

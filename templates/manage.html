@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            max-width: 1200px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .actions button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .submit-button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Site: {{ site_name }}</h1>
+        
+        <form method="post">
+            <div class="actions">
+                <button name="action" value="migrate">Migrate</button>
+                <button name="action" value="backup">Backup</button>
+                <button name="action" value="clear_cache">Clear Cache</button>
+            </div>
+            
+            <label for="apps">Install App(s):</label>
+            <select name="apps" id="apps" multiple>
+                <!-- Options should be dynamically generated based on available apps -->
+                <option value="app1">App 1</option>
+                <option value="app2">App 2</option>
+                <option value="app3">App 3</option>
+            </select>
+            <button type="submit" name="action" value="install" class="submit-button">Install Selected Apps</button>
+        </form>
+        
+        <a href="{{ url_for('site', site_name=site_name) }}">Back to Site</a>
+    </div>
+</body>
+</html>
